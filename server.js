@@ -1,12 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
+
 import fetch from 'node-fetch';
 
-const SUPABASE_URL = 'https://eddnkmvlagibcvzmmgeu.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVkZG5rbXZsYWdpYmN2em1tZ2V1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NzE2MzcsImV4cCI6MjA1ODE0NzYzN30.cI8b0epxKevEvBj1ioEXt8LwWJtQu5-YTrKUt7H7tkQ';
+const SUPABASE_URL2 = 'https://eddnkmvlagibcvzmmgeu.supabase.co';
+const SUPABASE_KEY2 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVkZG5rbXZsYWdpYmN2em1tZ2V1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NzE2MzcsImV4cCI6MjA1ODE0NzYzN30.cI8b0epxKevEvBj1ioEXt8LwWJtQu5-YTrKUt7H7tkQ';
 const TELEGRAM_TOKEN = '7631558170:AAGGhh10UuegU3XVA06e9hmL__CxXWqTy4Q';
 const CHAT_ID = '1015628413';
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabase = createClient(SUPABASE_URL2, SUPABASE_KEY2);
 
 async function sendTelegramMessage(message) {
   try {
@@ -59,16 +60,21 @@ async function checkNewRows() {
     console.error('Unexpected error in checkNewRows:', error);
   }
 }
-
 // Запускаем проверку каждые 5 секунд
-setInterval(checkNewRows, 1000);
-const { data, error } = await supabase
+
+setInterval(async ()=>{
+  const { data, error } = await supabase
   .from('info')
   .select('*')
   .order('id', { ascending: true });
 
-console.log(data, error);
+console.log(data, error); 
+
+
+}, 10000)
+
 
 console.log('SERVER RUNNING!!!');
+setInterval(checkNewRows, 1000);
 
 
